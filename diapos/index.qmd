@@ -9517,48 +9517,6 @@ ggplot(gapminder_1997, aes(y = gdpPercap, x = pop, color = lifeExp)) +
 
 ---
 
-## Gradiente de color manual
-
-
-:::: columns
-
-::: {.column width="45%"}
-
-Tambien podemos crear un [**gradiente de color manual**]{.hl-yellow} son `scale_..._gradient()` para dos colores, `scale_..._gradient2()` para tres colores (bajo, medio y alto) y `scale_..._gradientn()` para n colores
-
-
-
-:::
-
-::: {.column width="55%"}
-
-```{r}
-#| echo: false
-ggplot(gapminder_1997, aes(y = gdpPercap, x = pop, color = lifeExp)) +
-  geom_point(alpha = 0.8, size = 3) +
-  scale_x_log10() +
-  scale_color_gradient2(low = "#E92745", mid = "#F4ED5B", high = "#56B1F7", midpoint = 60) +
-  labs(x = "Población", y = "Renta per cápita", title = "Primer ggplot",
-       caption = "J. Álvarez Liébana", color = "esperanza de vida") +
-  theme_minimal()
-```
-
-:::
-::::
-
-```{r}
-#| eval: false
-ggplot(gapminder_1997, aes(y = gdpPercap, x = pop, color = lifeExp)) +
-  geom_point(alpha = 0.8, size = 3) +
-  scale_x_log10() +
-  scale_color_gradient2(low = "#E92745", mid = "#F4ED5B", high = "#56B1F7", midpoint = 60) +
-  labs(x = "Población", y = "Renta per cápita", title = "Primer ggplot",
-       caption = "J. Álvarez Liébana", color = "esperanza de vida") +
-  theme_minimal()
-```
-
----
-
 ## Capa de coordenadas
 
 
@@ -9697,56 +9655,6 @@ ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp, color = continent, size =
   theme_minimal()
 ```
 
----
-
-## geom_text()
-
-:::: columns
-
-::: {.column width="45%"}
-
-
-Podemos añadirle [**textos simples**]{.hl-yellow} con `geom_text(label = ...)`, por ejemplo, para añadir la correlación del ajuste.
-
-:::
-
-
-::: {.column width="55%"}
-
-```{r}
-#| echo: false
-cor <- round(cor(gapminder_1997$gdpPercap, gapminder_1997$lifeExp), 3)
-ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
-  geom_point(aes(color = continent, size = pop), alpha = 0.8) +
-  stat_smooth(method = "lm", se = FALSE) +
-  geom_text(aes(x = 50, y = 20000), label = glue("Correlación: {cor}"),
-            size = 5, color = "darkcyan") +
-  scale_y_log10() +
-  guides(size = "none") +
-  ggthemes::scale_color_colorblind() +
-  labs(x = "Esperanza de vida", y = "Renta per cápita", title = "Primer ggplot",
-       caption = "J. Álvarez Liébana", color = "continente") +
-  theme_minimal()
-```
-:::
-::::
-
-
-```{r}
-#| eval: false
-cor <- round(cor(gapminder_1997$gdpPercap, gapminder_1997$lifeExp), 3)
-ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
-  geom_point(aes(color = continent, size = pop), alpha = 0.8) +
-  stat_smooth(method = "lm", se = FALSE) +
-  geom_text(aes(x = 50, y = 20000, label = glue("Correlación: {cor}")),
-                size = 5, color = "darkcyan") +
-  scale_y_log10() +
-  guides(size = "none") +
-  ggthemes::scale_color_colorblind() +
-  labs(x = "Esperanza de vida", y = "Renta per cápita", title = "Primer ggplot",
-       caption = "J. Álvarez Liébana", color = "continente") +
-  theme_minimal()
-```
 
 ---
 
@@ -10112,8 +10020,116 @@ ggplot(gapminder |> filter(year >= 1962), aes(y = gdpPercap, x = lifeExp, size =
   theme(legend.position = "bottom")
 ```
 
+# Clase 20: profundizando en ggplot {#clase-20}
+
+[**Visualización de datos**]{style="color:#444442;"}
+
 ---
 
+hacer resumen construyendo poco a poco
+
+camrecorder
+
+---
+
+mismo gráfico con distinta geometría para continuas
+
+---
+
+## Gradiente de color manual
+
+
+:::: columns
+
+::: {.column width="45%"}
+
+Tambien podemos crear un [**gradiente de color manual**]{.hl-yellow} son `scale_..._gradient()` para dos colores, `scale_..._gradient2()` para tres colores (bajo, medio y alto) y `scale_..._gradientn()` para n colores
+
+
+
+:::
+
+::: {.column width="55%"}
+
+```{r}
+#| echo: false
+ggplot(gapminder_1997, aes(y = gdpPercap, x = pop, color = lifeExp)) +
+  geom_point(alpha = 0.8, size = 3) +
+  scale_x_log10() +
+  scale_color_gradient2(low = "#E92745", mid = "#F4ED5B", high = "#56B1F7", midpoint = 60) +
+  labs(x = "Población", y = "Renta per cápita", title = "Primer ggplot",
+       caption = "J. Álvarez Liébana", color = "esperanza de vida") +
+  theme_minimal()
+```
+
+:::
+::::
+
+```{r}
+#| eval: false
+ggplot(gapminder_1997, aes(y = gdpPercap, x = pop, color = lifeExp)) +
+  geom_point(alpha = 0.8, size = 3) +
+  scale_x_log10() +
+  scale_color_gradient2(low = "#E92745", mid = "#F4ED5B", high = "#56B1F7", midpoint = 60) +
+  labs(x = "Población", y = "Renta per cápita", title = "Primer ggplot",
+       caption = "J. Álvarez Liébana", color = "esperanza de vida") +
+  theme_minimal()
+```
+
+
+---
+
+
+## geom_text()
+
+:::: columns
+
+::: {.column width="45%"}
+
+
+Podemos añadirle [**textos simples**]{.hl-yellow} con `geom_text(label = ...)`, por ejemplo, para añadir la correlación del ajuste.
+
+:::
+
+
+::: {.column width="55%"}
+
+```{r}
+#| echo: false
+cor <- round(cor(gapminder_1997$gdpPercap, gapminder_1997$lifeExp), 3)
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(aes(color = continent, size = pop), alpha = 0.8) +
+  stat_smooth(method = "lm", se = FALSE) +
+  geom_text(aes(x = 50, y = 20000), label = glue("Correlación: {cor}"),
+            size = 5, color = "darkcyan") +
+  scale_y_log10() +
+  guides(size = "none") +
+  ggthemes::scale_color_colorblind() +
+  labs(x = "Esperanza de vida", y = "Renta per cápita", title = "Primer ggplot",
+       caption = "J. Álvarez Liébana", color = "continente") +
+  theme_minimal()
+```
+:::
+::::
+
+
+```{r}
+#| eval: false
+cor <- round(cor(gapminder_1997$gdpPercap, gapminder_1997$lifeExp), 3)
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(aes(color = continent, size = pop), alpha = 0.8) +
+  stat_smooth(method = "lm", se = FALSE) +
+  geom_text(aes(x = 50, y = 20000, label = glue("Correlación: {cor}")),
+                size = 5, color = "darkcyan") +
+  scale_y_log10() +
+  guides(size = "none") +
+  ggthemes::scale_color_colorblind() +
+  labs(x = "Esperanza de vida", y = "Renta per cápita", title = "Primer ggplot",
+       caption = "J. Álvarez Liébana", color = "continente") +
+  theme_minimal()
+```
+
+---
 
 ## Variables continuas
 
@@ -10679,3 +10695,995 @@ starwars |>
 ```
 
 
+# Clase 21: joins y expresiones de control
+
+[**Cruzando datos. Bucles**]{style="color:#444442;"}
+
+
+## Relacionando datos
+
+Al trabajar con datos [**no siempre tendremos la información en una sola tabla**]{.hl-yellow} y a veces nos interesará cruzar la información de distintas fuentes.
+
+. . .
+
+Para ello usaremos un clásico de todo lenguaje que maneja datos: los famosos [**join**]{.hl-yellow}, una herramienta que nos va a permitir [**cruzar una o variables tablas**]{.hl-yellow}, haciendo uso de una [**columna identificadora**]{.hl-yellow} de cada una de ellas (por ejemplo, imagina que cruzamos datos de hacienda y de antecedentes penales, haciendo _join_ por la columna `DNI`).
+
+---
+
+## Relacionando datos
+
+
+```{r}
+#| eval: false
+tabla_1 |>
+  xxx_join(tabla_2, by = id)
+```
+
+* `inner_join()`: solo sobreviven los [**registros con id en ambas**]{.hl-yellow} tablas.
+
+* `full_join()`: mantiene [**todos los registros de ambas**]{.hl-yellow} tablas.
+
+* `left_join()`: mantiene [**todos los registros de la primera tabla**]{.hl-yellow}, y busca cuales tienen id también en la segunda (en caso de [**no tenerlo se rellena con NA**]{.hl-yellow} los campos de la 2ª tabla).
+
+* `right_join()`: mantiene [**todos los registros de la segunda tabla**]{.hl-yellow}, y busca cuales tienen id también en la primera.
+
+![](img/sql-joins.jpg)
+
+
+---
+
+## Relacionando datos
+
+Vamos a probar los distintos joins con un ejemplo sencillo
+
+```{r}
+tb_1 <- tibble("key" = 1:3, "val_x" = c("x1", "x2", "x3"))
+tb_2 <- tibble("key" = c(1, 2, 4), "val_y" = c("y1", "y2", "y3"))
+```
+
+:::: columns
+::: {.column width="50%"}
+
+```{r}
+tb_1
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+tb_2
+```
+
+:::
+::::
+
+---
+
+## Left join
+
+Imagina que queremos [**incorporar**]{.hl-yellow} a `tb_1` la [**información de la tabla_2**]{.hl-yellow}, identificando los registros por la columna key (indicando con `by = "key"` la columna por la que tiene que cruzar): queremos mantener todos los registros de la primera tabla y buscar cuales tienen id (mismo valor en `key`) también en la segunda tabla.
+
+:::: columns
+::: {.column width="50%"}
+
+
+```{r}
+tb_1  |> 
+  left_join(tb_2, by = "key")
+```
+
+:::
+::: {.column width="50%"}
+
+
+![](img/left_join.jpg)
+
+
+:::
+::::
+
+---
+
+## Left join
+
+```{r}
+tb_1 |> 
+  left_join(tb_2, by = "key")
+```
+
+Fíjate que los [**registros de la primera cuya key no ha encontrado en la segunda**]{.hl-yellow} les ha dado el valor de [**ausente**]{.hl-yellow}.
+
+---
+
+## Right join
+
+El `right_join()` realizará la operación contraria: vamos ahora a [**incorporar**]{.hl-yellow} a `tb_2` la [**información de la tabla_2**]{.hl-yellow}, identificando los registros por la columna key (indicando con `by = "key"` la columna por la que tiene que cruzar): queremos mantener todos los registros de la segunda y buscar cuales tienen id (mismo valor en `key`) también en la primera tabla.
+
+:::: columns
+::: {.column width="50%"}
+
+
+```{r}
+tb_1 |> 
+  right_join(tb_2, by = "key")
+```
+
+:::
+
+::: {.column width="50%"}
+
+![](img/right_join.jpg)
+
+:::
+::::
+
+
+---
+
+## Right join
+
+
+```{r}
+tb_1 |> 
+  right_join(tb_2, by = "key")
+```
+
+Fíjate que ahora los [**registros de la segunda cuya key no ha encontrado en la primera**]{.hl-yellow} son los que les ha dado el valor de [**ausente**]{.hl-yellow}.
+
+---
+
+
+## Claves y sufijos
+
+Las columnas clave que usaremos para el cruce [**no siempre se llamarán igual**]{.hl-yellow}.
+
+```{r}
+tb_1 <- tibble("key_1" = 1:3, "val_x" = c("x1", "x2", "x3"))
+tb_2 <- tibble("key_2" = c(1, 2, 4), "val_y" = c("y1", "y2", "y3"))
+```
+
+. . .
+
+* `by = c("key_2" = "key_2")`: le indicaremos en qué columna de cada tabla están las claves por las que vamos a cruzar.
+
+:::: columns
+::: {.column width="50%"}
+
+```{r}
+# Left
+tb_1 |> 
+  left_join(tb_2, by = c("key_1" = "key_2"))
+```
+
+:::
+
+
+::: {.column width="50%"}
+
+```{r}
+# Right
+tb_1  |> 
+  right_join(tb_2, by = c("key_1" = "key_2"))
+```
+
+:::
+::::
+
+---
+
+## Claves y sufijos
+
+Además podemos [**cruzar por varias columnas a la vez**]{.hl-yellow} (interpretará como igual registro aquel que tenga el conjunto de claves igual), con `by = c("var1_t1" = "var1_t2", "var2_t1" = "var2_t2", ...)`. Modifiquemos el ejemplo anterior
+
+```{r}
+tb_1 <- tibble("k_11" = 1:3, "k_12" = c("a", "b", "c"),  "val_x" = c("x1", "x2", "x3"))
+tb_2 <- tibble("k_21" = c(1, 2, 4), "k_22" = c("a", "b", "e"), "val_y" = c("y1", "y2", "y3"))
+```
+
+. . .
+
+```{r}
+# Left
+tb_1 |> 
+  left_join(tb_2,
+            by = c("k_11" = "k_21", "k_12" = "k_22"))
+```
+
+
+---
+
+## Claves y sufijos
+
+También podría suceder que al cruzar dos tablas, haya [**columnas de valores que se llamen igual**]{.hl-yellow}
+
+
+```{r}
+tb_1 <- tibble("key_1" = 1:3, "val" = c("x1", "x2", "x3"))
+tb_2 <- tibble("key_2" = c(1, 2, 4), "val" = c("y1", "y2", "y3"))
+```
+
+. . .
+
+```{r}
+# Left
+tb_1 |> 
+  left_join(tb_2, by = c("key_1" = "key_2"))
+```
+
+Fíjate que [**por defecto nos añade los sufijos**]{.hl-yellow} `.x` y `.y` para indicarnos de que tabla vienen.
+
+---
+
+## Claves y sufijos
+
+
+Dicho [**sufijo podemos especificárselo**]{.hl-yellow} en el argumento opcional `suffix = ...`, que nos permita [**distinguir las variables**]{.hl-yellow} de una tabla y de otra.
+
+
+```{r}
+# Left
+tb_1 |>
+  left_join(tb_2, by = c("key_1" = "key_2"), suffix = c("_tabla1", "_tabla2"))
+```
+
+
+---
+
+## Full join
+
+Los dos anteriores casos forman lo que se conoce como [**outer joins**]{.hl-yellow}: cruces donde se mantienen observaciones que salgan en al menos una tabla. El tercer outer join es el conocido como `full_join()` que nos [**mantendrá las observaciones de ambas**]{.hl-yellow} tablas, [**añadiendo las filas**]{.hl-yellow} que no casen con la otra tabla.
+
+:::: columns
+::: {.column width="50%"}
+
+
+```{r}
+tb_1 |> 
+  full_join(tb_2, by = c("key_1" = "key_2"))
+```
+
+:::
+
+
+::: {.column width="50%"}
+
+![](img/full_join.jpg)
+
+:::
+::::
+
+
+---
+
+## Inner join
+
+Frente a los outer join está lo que se conoce como [**inner join**]{.hl-yellow}, con `inner_join()`: un cruce en el que solo se mantienen las [**observaciones que salgan en ambas tablas**]{.hl-yellow}, solo mantiene aquellos registros matcheados.
+
+:::: columns
+::: {.column width="50%"}
+
+
+```{r}
+tb_1 |> 
+  inner_join(tb_2, by = c("key_1" = "key_2"))
+```
+
+:::
+
+
+::: {.column width="50%"}
+
+![](img/inner_join.png)
+
+
+:::
+::::
+
+---
+
+## Inner join
+
+Fíjate que en términos de registros, `inner_join` si es conmutativa, **nos da igual el orden de las tablas**: lo único que cambia es el orden de las columnas que añade.
+
+:::: columns
+::: {.column width="50%"}
+
+
+```{r}
+tb_1 |> 
+  inner_join(tb_2, by = c("key_1" = "key_2"))
+```
+
+:::
+
+::: {.column width="50%"}
+
+
+```{r}
+tb_2 |> 
+  inner_join(tb_1, by = c("key_2" = "key_1"))
+```
+
+:::
+::::
+
+---
+
+## Anti/semi join
+
+Por último tenemos dos herramientas interesantes para [**filtrar (no cruzar) registros**]{.hl-yellow}: `semi_join()` y `anti_join()`. El [**semi join**]{.hl-yellow} nos deja en la [**primera tabla los registros que cuya clave está también en la segunda**]{.hl-yellow} (como un inner join pero sin añadir la info de la segunda tabla). Y el segundo, los anti join, hace justo lo contrario (aquellos que no están).
+
+
+:::: columns
+::: {.column width="50%"}
+
+```{r}
+# semijoin
+tb_1 |> 
+  semi_join(tb_2, by = c("key_1" = "key_2"))
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+# antijoin
+tb_1 |> 
+  anti_join(tb_2, by = c("key_1" = "key_2"))
+```
+
+:::
+::::
+
+
+---
+
+
+## 💻 Tu turno {#tu-turno-16}
+
+[**Intenta realizar los siguientes ejercicios sin mirar las soluciones**]{style="color:#444442;"}
+
+Para los ejercicios usaremos las tablas disponibles en el paquete `{nycflights13}` (echa un vistazo antes)
+
+```{r}
+library(nycflights13)
+```
+
+* [**airlines**]{.hl-yellow}: nombre de aerolíneas (con su abreviatura).
+* [**airports**]{.hl-yellow}: datos de aeropuertos (nombres, longitud, latitud, altitud, etc).
+* [**flights**]{.hl-yellow}: datos de vuelos.
+* [**planes**]{.hl-yellow}: datos de los aviones.
+* [**weather**]{.hl-yellow}: datos meteorológicos horarios de las estaciones LGA, JFK y EWR.
+
+---
+
+## 💻 Tu turno {#tu-turno-16}
+
+[**Intenta realizar los siguientes ejercicios sin mirar las soluciones**]{style="color:#444442;"}
+
+
+::: panel-tabset
+
+### [**Ejercicio 1**]{.hl-yellow}
+
+📝 Del paquete `{nycflights13}` cruza la tabla `flights` con `airlines`. Queremos mantener todos los registros de vuelos, añadiendo la información de las aerolíneas a la tabla de aviones.
+
+```{r}
+#| eval: false
+#| code-fold: true
+flights_airlines <-
+  flights |> 
+  left_join(airlines, by = "carrier")
+flights_airlines
+```
+
+### [**Ejercicio 2**]{.hl-yellow}
+
+📝 A la tabla obtenida del cruce del apartado anterior, cruza después con los datos de los aviones en `planes`, pero incluyendo solo aquellos vuelos de los que tengamos información de sus aviones (y viceversa). 
+
+
+```{r}
+#| eval: false
+#| code-fold: true
+flights_airlines_planes <- 
+  flights_airlines |> 
+  inner_join(planes, by = "tailnum")
+flights_airlines_planes
+```
+
+
+### [**Ejercicio 3**]{.hl-yellow}
+
+📝 Repite el ejercicio anterior pero conservando ambas variables `year` (en una es el año del vuelo, en la otra es el año de construcción del avión), y distinguiéndolas entre sí
+
+
+
+```{r}
+#| eval: false
+#| code-fold: true
+flights_airlines_planes <- 
+  flights_airlines |> 
+  inner_join(planes, by = "tailnum",
+             suffix = c("_flight", "_build_aircraft"))
+flights_airlines_planes
+```
+
+### [**Ejercicio 4**]{.hl-yellow}
+
+📝 Al cruce obtenido del ejercicio anterior incluye la longitud y latitud de los aeropuertos en `airports`, distinguiendo entre la latitud/longitud del aeropuerto en destino y en origen.
+
+```{r}
+#| eval: false
+#| code-fold: true
+flights_airlines_planes %>%
+  left_join(airports %>% select(faa, lat, lon),
+            by = c("origin" = "faa")) |> 
+  rename(lat_origin = lat, lon_origin = lon) |> 
+  left_join(airports %>% select(faa, lat, lon),
+            by = c("dest" = "faa")) |> 
+  rename(lat_dest = lat, lon_dest = lon)
+```
+
+### [**Ejercicio 5**]{.hl-yellow}
+
+📝 Filtra de `airports` solo aquellos aeropuertos de los que salgan vuelos. Repite el proceso filtrado solo aquellos a los que lleguen vuelos
+
+```{r}
+#| eval: false
+#| code-fold: true
+airports |> 
+  semi_join(flights, by = c("faa" = "origin"))
+airports |> 
+  semi_join(flights, by = c("faa" = "dest"))
+```
+
+
+### [**Ejercicio 6**]{.hl-yellow}
+
+📝 ¿De cuántos vuelos no disponemos información del avión? Elimina antes los vuelos que no tengan identificar (diferente a NA) del avión
+
+
+```{r}
+#| eval: false
+#| code-fold: true
+flights |> 
+  drop_na(tailnum) |>
+  anti_join(planes, by = "tailnum") |>
+  count(tailnum, sort = TRUE) # de mayor a menor ya de paso
+```
+
+:::
+
+
+---
+
+## Estructuras de control
+
+Una [**estructura de control**]{.hl-yellow} se compone de una serie de comandos orientados a  [**decidir el camino**]{.hl-yellow} que tu código debe recorrer
+
+* Si se cumple la condición A, ¿qué sucede?
+
+* ¿Y si sucede B?
+
+* ¿Cómo puedo repetir una misma expresión (dependiendo de una variable)?
+
+. . .
+
+Si has programado antes, quizás te sea familiar las conocidas como [**estructuras condicionales**]{.hl-yellow} tales como `if (blabla) {...} else {...}`  o [**bucles**]{.hl-yellow} `for/while` (a evitar siempre que podamos).
+
+---
+
+## Estructura If
+
+Una de las estructuras de control más famosas son las conocidas como [**estructuras condicionales**]{.hl-yellow} `if`.
+
+> SI (IF) un conjunto de condiciones se cumple (TRUE), entonces ejecuta lo que haya dentro de las llaves
+
+Por ejemplo, la estructura `if (x == 1) { código A }` lo que hará será [**ejecutar el código A entre llaves**]{.hl-yellow} pero [**SOLO SI**]{.hl-purple} la [**condición entre paréntesis es cierta**]{.hl-purple} (solo si `x` es 1). En cualquier otro caso, no hará nada.
+
+. . .
+
+Por ejemplo, definamos un vector de edades de 8 personas
+
+```{r}
+edad <- c(14, 17, 24, 56, 31, 20, 87, 73)
+edad < 18
+```
+
+---
+
+## Estructura If
+
+
+Nuestra estructura condicional hará lo siguiente: [**si existe algún menor de edad, imprimirá**]{.hl-yellow} por pantalla un mensaje.
+
+```{r}
+if (any(edad < 18)) { 
+  
+  print("Existe alguna persona menor de edad")
+  
+}
+```
+
+---
+
+## Estructura If
+
+```{r}
+#| eval: false
+if (any(edad < 18)) { 
+  
+  print("Existe alguna persona menor de edad")
+  
+}
+```
+
+
+En caso de que las [**condiciones no sean ciertas**]{.hl-yellow} dentro de `if()` (`FALSE`), no sucede nada
+
+
+```{r}
+if (all(edad >= 18)) { 
+  
+  print("Todos son mayores de edad")
+  
+}
+```
+
+**No obtenemos ningún mensaje** porque la condición `all(edad >= 18)` no es `TRUE`, así que bno ejecuta nada.
+
+---
+
+## Estructura If-else
+
+La estructura `if (condicion) { código A }` puede combinarse con un `else { código B }`: cuando la [**condición no está verificada**]{.hl-yellow}, se [**ejecutará el código alternativo B**]{.hl-yellow} dentro de `else { }`, permitiéndonos decidir que sucede cuando se cumple y cuando no.
+. . .
+
+Por ejemplo, `if (x == 1) { código A } else { código B }` ejecutará A si `x` es igual a 1 y B en cualquier otro caso.
+
+```{r}
+if (all(edad >= 18)) { 
+  
+  print("Todos son mayores de edad")
+  
+} else {
+  
+  print("Existe alguna persona menor de edad")
+}
+```
+
+---
+
+## Estructura If-else
+
+Esta estructura `if - else` puede ser [**anidada**]{.hl-yellow}: imagina que queremos ejecutar un código si todos son menores; si no sucede, pero todos son mayores de 16, hacer otra cosa; en cualquier otra cosa, otra acción.
+
+```{r}
+if (all(edad >= 18)) { 
+  
+  print("Todos son mayores de edad")
+  
+} else if (all(edad >= 16)) {
+  
+  print("Hay algún menor de edad pero todos con 16 años o más")
+  
+} else { print("Hay alguna persona con menos de 16 años") }
+```
+
+::: callout-note
+## Truco
+
+Puedes **colapsar las estructuras** haciendo click en la flecha a la izquierda que aparece en tu script.
+
+:::
+
+
+---
+
+## If-else vectorizado
+
+
+Esta estructura condicional se puede [**vectorizar**]{.hl-yellow} (en una sola línea) con `if_else()` (del paquete `{dplyr}`), cuyos argumentos son
+
+* la condición a evaluar
+* lo que sucede cuando se cumple
+* lo que sucede cuando no
+* un argumento opcional para cuando la condición a evaluar es `NA`
+
+Por ejemplo, vamos a etiquetar sin son mayores/menores de edad y un "desconocido" cuando no conocemos la edad
+
+```{r}
+library(dplyr)
+edad <- c(NA, edad)
+if_else(edad >= 18, "mayor", "menor", missing = "desconocido")
+```
+
+
+
+---
+
+## Bucles
+
+Aunque en la mayoría de ocasiones se pueden reemplazar por otras estructuras más eficientes y legibles, es importante conocer una de las expresiones de control más famosas: los [**bucles**]{.hl-yellow}.
+
+* `for { }`: permite [**repetir el mismo código**]{.hl-yellow} en un [**número prefijado y conocido**]{.hl-purple} de veces.
+
+* `while { }`: permite [**repetir el mismo código**]{.hl-yellow} pero en un [**número indeterminado de veces**]{.hl-purple} (hasta que una **condición** deje de cumplirse).
+
+---
+
+## Bucles for
+
+Un bucle [**for**]{.hl-yellow} es una estructura que permite [**repetir**]{.hl-yellow} un conjunto de órdenes un número [**finito, prefijado y conocido de veces**]{.hl-purple} dado un conjunto de índices.
+
+. . .
+
+Por ejemplo, vamos a definir un vector `x` y vamos a imprimir sus elementos al cuadrado: definireos un índice `i` para imprimir, en cada paso, el valor i-ésimo `x[i]^2`. Esos índices irán dentro de `for (indice in conjunto) { code }` (por ejemplo, `i in 1:4`)
+
+```{r}
+x <- c(0, -7, 1, 4)
+for (i in 1:4) {
+  
+  print(x[i]^2)
+  
+}
+```
+
+---
+
+## Bucles for
+
+```{r}
+#| eval: false
+for (i in 1:4) { 
+  print(x[i]^2) 
+}
+```
+
+Dentro del paréntesis del `for ()` debemos tener una  [**secuencia de índices**]{.hl-yellow} (en este caso, números). Si queremos hacer lo mismo pero excluyendo el segundo elemento simplemente definimos el conjunto de valores `c(1, 3, 4)` entre los que `i` puede moverse.
+
+```{r}
+for (i in c(1, 3, 4)) {
+  
+  print(x[i]^2)
+  
+}
+```
+
+---
+
+## Bucles for
+
+Otra forma de usar un bucle es definir de cero un vector: primer inicializamos en ceros `y <- rep(0, 4)` para después modificar cada [**elemento i-ésimo**]{.hl-yellow} definidos como `x[i]^2`.
+
+```{r}
+y <- rep(0, 4)
+for (i in 1:4) {
+  
+  y[i] <- x[i]^2
+  
+}
+y
+```
+
+. . .
+
+Lo anterior es equivalente vectorialmente a
+
+```{r}
+y <- x^2
+y
+```
+
+---
+
+## Evitando bucles
+
+
+Como ya hemos aprendido con el paquete`{microbenchmark}` podemos chequear como [**los bucles suelen ser muy ineficientes**]{.hl-yellow} (de ahí que debamos evitarlos en la mayoría de ocasiones
+
+```{r}
+library(microbenchmark)
+x <- 1:1000
+microbenchmark(y <- x^2, 
+               for (i in 1:100) { y[i] <- x[i]^2 },
+               times = 500)
+```
+
+---
+ 
+## Bucles for
+
+
+Podemos ver otro ejemplo  [**combinando números y textos**]{.hl-yellow}: definimos un vector de edades y de nombres, e imprimimos el nomber y edad i-ésima.
+
+```{r}
+nombres <- c("Javi", "Sandra", "Carlos", "Marcos", "Marta")
+edades <- c(33, 27, 18, 43, 29)
+
+for (i in 1:5) { 
+  
+  print(glue("{nombres[i]} tiene {edades[i]} años")) 
+  
+}
+```
+
+---
+
+## Bucles for
+
+
+Fíjate que [**si no queremos estar pendientes de cuantos valores**]{.hl-yellow} tenemos, podemos hacer uso de `length()` para acceder a la [**última posición**]{.hl-yellow} (sea cual sea).
+
+```{r}
+for (i in 1:length(nombres)) { 
+  
+  print(glue("{nombres[i]} tiene {edades[i]} años")) 
+  
+}
+```
+
+---
+
+## Bucles for
+
+Aunque normalmente se suelen indexar con vectors numéricos, los bucles pueden ser [**indexados sobre cualquier estructura vectorial**]{.hl-yellow}
+
+```{r}
+library(stringr)
+week_days <- c("monday", "tuesday", "wednesday", "thursday",
+               "friday", "saturday", "sunday")
+
+for (days in week_days) {
+  
+  print(str_to_upper(days))
+}
+```
+
+---
+
+## Bucles for
+
+Vamos a combinar las estructuras condicionales y los bucles: usando el conjunto `swiss` del paquete `{datasets}`, vamos a asignar `NA`  si los valores de fertilidad son mayores de 80.
+
+```{r}
+for (i in 1:nrow(swiss)) {
+  
+  if (swiss$Fertility[i] > 80) { 
+    
+    swiss$Fertility[i] <- NA
+    
+  }
+}
+```
+
+. . .
+
+Esto es exactamente igual a un `if_else()` vectorizado
+
+```{r}
+data("swiss")
+swiss$Fertility <- if_else(swiss$Fertility > 80, NA, swiss$Fertility)
+```
+
+
+---
+
+## Bucles while
+
+Otra forma de crear un bucle es con la estructura `while { }`, que nos ejecutará un bucle [**un número desconocido de veces**]{.hl-yellow}, hasta que una condición [**deje de cumplirse**]{.hl-yellow} (de hecho puede que nunca termine). Por ejemplo, vamos a inializar una variable `ciclos <- 1`, que incrementaremos en cada paso, y no saldremos del bucle hasta que `ciclos > 4`.
+
+```{r}
+ciclos <- 1
+while(ciclos <= 4) {
+  
+  print(glue("No todavía, vamos por el ciclo {ciclos}")) 
+  ciclos <- ciclos + 1
+  
+}
+```
+
+
+---
+  
+## Bucles while
+
+
+¿Qué sucede cuando la [**condición nunca es FALSE**]{.hl-yellow}? Pruébalo tu mismo
+
+```{r}
+#| eval: false
+while (1 > 0) {
+  
+  print("Presiona ESC para salir del bucle")
+  
+}
+```
+
+&nbsp;
+
+::: callout-warning
+## Cuidado
+
+Un bucle `while { }` puede ser bastante «peligroso» sino controlamos bien cómo pararlo.
+
+:::
+
+---
+
+## Bucles while
+
+Contamos con dos palabras reservadas para [**abortar un bucle o forzar su avance**]{.hl-yellow}:
+
+* `break`: permite [**abortar un bucle**]{.hl-yellow} incluso si no se ha llegado a su final
+
+```{r}
+for(i in 1:10) {
+  if (i == 3) {
+    
+    break # si i = 3, abortamos bucle
+    
+  }
+  print(i)
+}
+```
+
+---
+
+## Bucles while
+
+Contamos con dos palabras reservadas para [**abortar un bucle o forzar su avance**]{.hl-yellow}:
+
+* `next`: [**fuerza un bucle a avanzar a la siguiente iteración**]{.hl-yellow} 
+
+```{r}
+for(i in 1:5) {
+  if (i == 3) {
+    
+    next # si i = 3, la obvia y continua al siguiente
+    
+  }
+  print(i)
+}
+```
+
+---
+
+## Bucles repeat
+
+Aunque no es tan usado como las opciones anteriores, también contamos con `repeat { }` que ejecuta un [**bucle de manera infinita hasta que se indique abortar**]{.hl-yellow} con un break
+
+```{r}
+count <- 0
+repeat { 
+  
+  count <- count + 1
+  if (count >= 100) { break }
+  
+}
+count
+```
+
+
+---
+
+## Replicate
+
+Por último, otra forma de [**repetir código un número de veces**]{.hl-yellow} es hacer uso de `replicate()`: simplemente permite repetir lo mismo [**n veces**]{.hl-yellow}
+
+```{r}
+x <- 1:3
+replicate(n = 3, x^2)
+```
+
+---
+
+## 💻 Tu turno {#tu-turno-n-1}
+
+::: panel-tabset
+
+### [**Ejercicio 1**]{.hl-yellow}
+
+📝 Modifica el código inferior para que se imprima un mensaje por pantalla si y solo si todos los datos de `airquality` son con mes distinto a enero
+
+```{r}
+#| eval: false
+library(datasets)
+months <- airquality$Month
+
+if (months == 2) {
+  print("No hay datos de enero")
+}
+```
+
+```{r}
+#| code-fold: true
+#| eval: false
+library(datasets)
+months <- airquality$Month
+
+if (all(months != 1)) {
+  print("No hay datos de enero")
+}
+```
+
+
+### [**Ejercicio 2**]{.hl-yellow}
+
+📝 Modifica el código inferior para guardar en una variable llamada `temp_alta` un `TRUE` si alguno de los registros tiene una temperatura superior a 90 grados Farenheit y `FALSE` en cualquier otro caso
+ 
+```{r}
+#| eval: false
+temp <- airquality$Temp
+
+if (temp == 100) {
+  print("Algunos de los registros tienen temperaturas superiores a 90 grados Farenheit")
+}
+```
+
+ 
+```{r}
+#| eval: false
+#| code-fold: true
+# Option 1
+temp <- airquality$Temp
+temp_alta <- FALSE
+if (any(temp > 90)) {
+   temp_alta <- TRUE
+}
+
+# Option 2
+temp_alta <- any(airquality$Temp > 90)
+```
+
+### [**Ejercicio 3**]{.hl-yellow}
+
+📝 Modifica el código inferior para diseñar un bucle `for` de 5 iteraciones que solo recorra los primeros 5 impares (y en cada paso del bucle los imprima)
+
+```{r}
+#| eval: false
+for (i in 1:5) {
+  
+  print(i)
+}
+```
+
+```{r}
+#| eval: false
+#| code-fold: true
+for (i in c(1, 3, 5, 7, 9)) {
+  
+  print(i)
+}
+```
+
+### [**Ejercicio 4**]{.hl-yellow}
+
+📝 Modifica el código inferior para diseñar un bucle `while` que empiece con un contador `count <- 1` y pare cuando llegue a 6
+
+```{r}
+#| eval: false
+count <- 1
+while (count == 2) {
+  
+  print(count)
+}
+```
+
+```{r}
+#| eval: false
+#| code-fold: true
+count <- 1
+while (count < 6) {
+  
+  print(count)
+  count <- count + 1
+  
+}
+```
+
+
+:::
